@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Register</title>
+    <link rel="stylesheet" type="text/css" href="../css/style2.css" />
+    <script src="Loscript.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    />
+  </head>
+  <body>
+
+    <nav class="navbar">
+      <div class="logo"><h1>WebCV</h1></div>
+          <ul class="menu">
+            <li><a href="../index.html">Home</a></li>
+            <li><a href="register.html">Admin Register </a></li>
+            
+            <li><a href="products.html">Products</a></li>
+            <li><a href="users.html">Users</a></li>
+          </ul>
+
+          <!-- for responsive button-->
+       <div class="menu-btn">
+              <i class="fa"></i>
+      </div>
+  </nav> 
+  <section class="content">
+    <div class="container">
+      <h1>Create a product</h1>
+      <form>
+        <div>
+          <input
+            type="nome"
+            id="nome"
+            name="nome"
+            placeholder="Enter the product name"
+            required
+          />
+        </div>
+        <div>
+          <input
+            type="descricao"
+            id="descricao"
+            name="descricao"
+            placeholder="Enter the product description"
+            required
+          />
+        </div>
+        <div>
+          <input
+            type="preco"
+            id="preco"
+            name="preco"
+            placeholder="Enter the product price"
+            required
+          />
+        </div>
+        <div>
+          <input
+            type="estoque"
+            id="estoque"
+            name="estoque"
+            placeholder="Enter the product stock"
+            required
+          />
+        </div>
+        <div>
+          <input
+            type="img"
+            id="img"
+            name="img"
+            placeholder="Enter the product image URL"
+            required
+          />
+        </div>
+        <button type="button" id="createButton">Create</button>
+      </form>
+    </div>
+  
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      const createButton = document.getElementById("createButton");
+      createButton.addEventListener("click", createProduct);
+  
+      function createProduct() {
+        const nome = document.getElementById("nome").value;
+        const descricao = document.getElementById("descricao").value;
+        const preco = document.getElementById("preco").value;
+        const estoque = document.getElementById("estoque").value;
+        const img = document.getElementById("img").value;
+  
+        const url = "http://localhost:4242/api/products/";
+  
+        const requestBody = {
+          nome: nome,
+          descricao: descricao,
+          preco: preco,
+          estoque: estoque,
+          img: img
+        };
+  
+        fetch(url, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(requestBody)
+        })
+          .then(response => {
+            if (response.ok) {
+              return response.json();
+            } else {
+              throw new Error("Product creation failed");
+            }
+          })
+          .then(data => {
+            alert("Product created successfully");
+            document.getElementById("nome").value = "";
+            document.getElementById("descricao").value = "";
+            document.getElementById("preco").value = "";
+            document.getElementById("estoque").value = "";
+            document.getElementById("img").value = "";
+          })
+          .catch(error => {
+            console.error("Error:", error);
+            alert("Product creation failed");
+          });
+      }
+    });
+  </script>
+  </body>
+</html>
+

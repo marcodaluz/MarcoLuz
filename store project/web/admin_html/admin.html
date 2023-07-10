@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="../css/style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js" integrity="sha512-3gJwYpMe3QewGELv8k/BX9vcqhryRdzRMxVfq6ngyWXwo03GFEzjsUm8Q7RZcHPHksttq7/GFoxjCVUjkjvPdw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>Dt</title>
+</head>
+<style>
+    * {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Content section */
+.content {
+    
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 50px;
+  padding: 0 20px;
+}
+
+.card {
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  padding: 20px;
+  width: 300px;
+  text-align: center;
+}
+
+.card-icon {
+  font-size: 40px;
+  margin-bottom: 10px;
+}
+
+.card-title {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.card-description {
+  margin-bottom: 20px;
+}
+
+.card-button a {
+  display: inline-block;
+  background-color: #333;
+  color: #fff;
+  padding: 8px 16px;
+  border-radius: 4px;
+  text-decoration: none;
+}
+
+/* Footer */
+footer {
+  text-align: center;
+  padding: 10px;
+  background-color: #333;
+  color: #fff;
+}
+
+footer a {
+  color: #fff;
+  text-decoration: none;
+}
+</style>
+<body>
+
+    <!--header-->
+    <nav class="navbar">
+        <div class="logo"><h1>Web CV</h1></div>
+        <ul class="menu">
+            <li><a href="register.html">Admin Register</a></li>
+            <li><a href="addProduct.html">Add a Product</a></li>
+            <li><a href="products.html">Products</a></li>
+            <li><a href="users.html">Users</a></li>
+        </ul>
+
+        <!-- for responsive button-->
+        <div class="menu-btn">
+            <i class="fa"></i>
+        </div>
+    </nav> 
+    <!--header-->
+
+    <section class="content">
+        <div class="card">
+            <div class="card-icon">
+                <i class="fas fa-user"></i>
+            </div>
+            <div class="card-title">
+                <h2>Admin Register</h2>
+            </div>
+            <div class="card-description">
+                <p>Register a new admin account</p>
+            </div>
+            <div class="card-button">
+                <a href="register.html">Register</a>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-icon">
+                <i class="fas fa-plus"></i>
+            </div>
+            <div class="card-title">
+                <h2>Add a Product</h2>
+            </div>
+            <div class="card-description">
+                <p>Add a new product to the website</p>
+            </div>
+            <div class="card-button">
+                <a href="addProduct.html">Add Product</a>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-icon">
+                <i class="fas fa-shopping-cart"></i>
+            </div>
+            <div class="card-title">
+                <h2>Products</h2>
+            </div>
+            <div class="card-description">
+                <p>Manage and view all products</p>
+            </div>
+            <div class="card-button">
+                <a href="products.html">View Products</a>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-icon">
+                <i class="fas fa-users"></i>
+            </div>
+            <div class="card-title">
+                <h2>Users</h2>
+            </div>
+            <div class="card-description">
+                <p>Manage and view all users</p>
+            </div>
+            <div class="card-button">
+                <a href="users.html">View Users</a>
+            </div>
+        </div>
+    </section>
+    
+    <script src="../js/main.js"></script>
+    <footer>
+        <p><a href="">Web CV</a></p>
+    </footer>
+</body>
+</html>

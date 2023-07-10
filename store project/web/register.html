@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Register</title>
+    <link rel="stylesheet" type="text/css" href="./css/style2.css" />
+    <script src="Loscript.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    />
+  </head>
+  <body>
+
+ <nav class="navbar menu">
+  <div class="logo"><h1>DP Shops</h1></div>
+  <ul class="menu">
+    <li><a href="index.html" class="active">Home</a></li>
+    <li id="register-buton" style="display: none;"><a href="register.html">Register</a></li>
+    <li id="login-buton" style="display: none;"><a href="indexLogin.html">Login</a></li>
+   
+    <li id="logaut-buton" style="display: none;" onclick="logout()"><a href="#">Logout</a></li>
+    <li id="admin-buton" style="display: none;"><a href="./admin_html/admin.html">Admin</a></li>
+   <li>
+      <a href="carrinho.html"><i class="fas fa-shopping-cart"></i></a>
+    </li>
+  
+  </ul>
+
+  <!-- for responsive button-->
+  <div class="menu-btn">
+    <i class="fa"></i>
+  </div>
+</nav>
+  <section class="content">
+    <div class="container">
+      <h1>Register</h1>
+      <form>
+        <div>
+          <i class="fas fa-user"></i>
+          <input
+            type="text"
+            id="username"
+            name="username"
+            placeholder="Enter your username"
+            required
+          />
+        </div>
+        <div>
+          <i class="fas fa-lock"></i>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            placeholder="Enter your password"
+            required
+          />
+        </div>
+        
+        <button type="button" onclick="signup()">Register</button>
+      </form>
+      <p>Already have an account? <a href="indexLogin.html">Login</a></p>
+    </div>
+ <section>
+  </body>
+  <script>
+    function signup() {
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
+      const role = false;
+
+      // Replace with your signup endpoint URL
+      const url = 'http://localhost:4242/api/user/register';
+
+      const requestBody = { username, password , role};
+
+      fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(requestBody),
+      })
+        .then((response) => {
+          if (response.ok) {
+            return response.json();
+          } else {
+            throw new Error('Registration failed');
+          }
+        })
+        .then((data) => {
+          // Registration successful
+          alert('Registration successful');
+          window.location.href = 'indexLogin.html'; // Redirect to login.html
+        })
+        .catch((error) => {
+          console.error('Error:', error);
+          alert('Registration failed');
+        });
+    }
+  </script>
+    <script src="./js/main.js"></script>
+
+</html>

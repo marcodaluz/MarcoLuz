@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="../css/style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js" integrity="sha512-3gJwYpMe3QewGELv8k/BX9vcqhryRdzRMxVfq6ngyWXwo03GFEzjsUm8Q7RZcHPHksttq7/GFoxjCVUjkjvPdw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>Document</title>
+</head>
+<body>
+
+    <!--header-->
+    <nav class="navbar">
+        <div class="logo"><h1>Web CV</h1></div>
+            <ul class="menu">
+              <li><a href="../index.html">Home</a></li>
+              <li><a href="register.html">Admin Register </a></li>
+              
+              <li><a href="addProduct.html">Add Products</a></li>
+              <li><a href="users.html">Users</a></li>
+            </ul>
+
+            <!-- for responsive button-->
+         <div class="menu-btn">
+                <i class="fa"></i>
+        </div>
+    </nav> 
+    <!--header-->
+<!--
+    <section class="content">
+        <h1>New Arrivals For Men & Women</h1>
+        <p>Get The best Women Fashion arrivals</p>
+        <button>Shop Now</button>
+    </section>-->
+    <!---->
+    <h1 class="pheading">Update our product</h1>
+  
+    <section class="sec1">
+        <div class="products">
+           
+
+        </div>
+    <footer>
+         <p>Copyrights at <a href="">Web CV</a></p>
+    </footer>
+    <script src="./js/main.js"></script>
+    <script>
+        window.addEventListener("load", () => {
+            load_products1();
+        });
+        function load_products1() {
+          
+          fetch('http://localhost:4242/api/products/')
+            .then(response => response.json())
+            .then(data => {
+              const productsContainer = document.querySelector('.products');
+        
+              // Limpar os produtos existentes antes de carregar os novos
+              productsContainer.innerHTML = '';
+        
+              // Percorrer os dados dos produtos e criar os elementos HTML correspondentes
+              data.forEach(product => {
+                const card = document.createElement('div');
+                card.classList.add('card');
+                card.setAttribute('data-product-id', product.id); // Adiciona o atributo data-product-id com o ID do produto
+        
+                const img = document.createElement("div");
+        img.classList.add("img");
+        img.innerHTML = `<img src="../${product.img}" alt="">`;
+        card.appendChild(img);
+
+
+                img.setAttribute('data-original-src', product.img); // Armazena o valor original do atributo src
+                img.setAttribute('contentEditable', true); // Permite editar o atributo src
+                card.appendChild(img);
+        
+                const desc = document.createElement('div');
+                desc.classList.add('desc');
+                desc.textContent = product.descricao;
+                desc.setAttribute('data-original-text', product.descricao); // Armazena o valor original do texto
+                desc.setAttribute('contentEditable', true); // Permite editar o texto
+                card.appendChild(desc);
+        
+                const title = document.createElement('div');
+                title.classList.add('title');
+                title.textContent = product.nome;
+                title.setAttribute('data-original-text', product.nome); // Armazena o valor original do texto
+                title.setAttribute('contentEditable', true); // Permite editar o texto
+                card.appendChild(title);
+        
+                const box = document.createElement('div');
+                box.classList.add('box');
+        
+                const price = document.createElement('div');
+                price.classList.add('price');
+                price.textContent = ` ${product.preco} EUR`;
+                price.setAttribute('data-original-text', product.preco); // Armazena o valor original do texto
+                price.setAttribute('contentEditable', true); // Permite editar o texto
+                box.appendChild(price);
+        
+                const stock = document.createElement('div');
+                stock.classList.add('stock');
+                stock.textContent = ` ${product.estoque} `;
+                stock.setAttribute('data-original-text', product.estoque); // Armazena o valor original do texto
+                stock.setAttribute('contentEditable', true); // Permite editar o texto
+                box.appendChild(stock);
+        
+                const updateBtn = document.createElement('button');
+                updateBtn.classList.add('btn');
+                updateBtn.textContent = 'Update';
+                updateBtn.addEventListener('click', updateProduct); // Adiciona o evento de clique para chamar a função updateProduct
+                box.appendChild(updateBtn);
+        
+                const deleteBtn = document.createElement('button');
+                deleteBtn.classList.add('btn');
+                deleteBtn.textContent = 'Delete';
+                deleteBtn.addEventListener('click', deleteProduct); // Adiciona o evento de clique para chamar a função deleteProduct
+                box.appendChild(deleteBtn);
+        
+                card.appendChild(box);
+        
+                productsContainer.appendChild(card);
+              });
+            })
+            .catch(error => {
+              console.error('Error loading products:', error);
+            });
+        }
+        
+        
+          
+          function updateProduct(event) {
+            const token = localStorage.getItem("token-iusabndkjanbksd");
+            if (!token) {
+              return;
+            }
+            const card = event.target.closest('.card');
+            const img = card.querySelector('.img img');
+            const desc = card.querySelector('.desc');
+            const title = card.querySelector('.title');
+            const price = card.querySelector('.price');
+            const stock = card.querySelector('.stock');
+          
+            const productId = card.getAttribute('data-product-id'); // Adicione um atributo 'data-product-id' ao elemento .card para armazenar o ID do produto
+          
+            // Obtenha os valores atualizados
+            const updatedImg = img.getAttribute('src');
+            const updatedDesc = desc.textContent;
+            const updatedTitle = title.textContent;
+            const updatedPrice = price.textContent.trim();
+            const updatedStock = stock.textContent.trim();
+          
+            // Implemente a lógica para enviar os dados atualizados para o servidor, por exemplo, usando uma requisição fetch
+            fetch(`http://localhost:4242/api/products/${productId}`, {
+              method: 'PUT',
+              headers: {
+                "Content-Type": "application/json",
+                authorization: `Bearer ${token}`,
+              },
+              body: JSON.stringify({
+                img: updatedImg,
+                descricao: updatedDesc,
+                nome: updatedTitle,
+                preco: updatedPrice,
+                estoque: updatedStock
+              })
+            })
+              .then(response => response.json())
+              .then(data => {
+                // Ação adicional após a atualização bem-sucedida, se necessário
+                console.log('Produto atualizado:', data);
+              })
+              .catch(error => {
+                console.error('Erro ao atualizar o produto:', error);
+              });
+          }
+          
+          function deleteProduct(event) {
+            const token = localStorage.getItem("token-iusabndkjanbksd");
+            if (!token) {
+              return;
+            }
+
+            const card = event.target.closest('.card');
+            const productId = card.getAttribute('data-product-id');
+          
+            fetch(`http://localhost:4242/api/products/${productId}`, {
+              method: 'DELETE',
+               headers: {
+                "Content-Type": "application/json",
+                authorization: `Bearer ${token}`,
+              },
+            })
+              .then(response => {
+                if (response.ok) {
+                  
+                  card.remove();
+                  location.reload(); // Reload da página
+                } else {
+                  throw new Error('Failed to delete product');
+                }
+              })
+              .catch(error => {
+                console.error('Error deleting product:', error);
+              });
+          }
+          
+          
+    </script>
+    
+</body>
+</html>

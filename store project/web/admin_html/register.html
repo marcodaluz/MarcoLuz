@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Register</title>
+    <link rel="stylesheet" type="text/css" href="../css/style2.css" />
+    <script src="Loscript.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    />
+  </head>
+  <style>
+
+    
+  </style>
+  <body>
+
+    <nav class="navbar">
+      <div class="logo"><h1>DP Shops</h1></div>
+          <ul class="menu">
+           <li><a href="../index.html">Home</a></li>
+            <li><a href="addProduct.html">Add Product </a></li>
+            
+            <li><a href="products.html">Products</a></li>
+            <li><a href="users.html">Users</a></li>
+          </ul>
+
+          <!-- for responsive button-->
+       <div class="menu-btn">
+              <i class="fa"></i>
+      </div>
+  </nav> 
+  <section class="content">
+    <div class="container">
+      <h1>Register</h1>
+      <form>
+        <div>
+          <i class="fas fa-user"></i>
+          <input
+            type="text"
+            id="username"
+            name="username"
+            placeholder="Enter your username"
+            required
+          />
+        </div>
+        <div>
+          <i class="fas fa-lock"></i>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            placeholder="Enter your password"
+            required
+          />
+        </div>
+        
+        <button type="button" onclick="signup()">Admin Register </button>
+      </form>
+      <p>Already have an account? <a href="indexLogin.html">Login</a></p>
+    </div>
+ <section>
+  </body>
+  <script>
+    function signup() {
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
+      const role = true;
+
+      // Replace with your signup endpoint URL
+      const url = 'http://localhost:4242/api/user/register';
+
+      const requestBody = { username, password , role};
+
+      fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(requestBody),
+      })
+        .then((response) => {
+          if (response.ok) {
+            return response.json();
+          } else {
+            throw new Error('Registration failed');
+          }
+        })
+        .then((data) => {
+          // Registration successful
+          alert('Registration successful');
+          window.location.href = 'users.html'; // Redirect to login.html
+        })
+        .catch((error) => {
+          console.error('Error:', error);
+          alert('Registration failed');
+        });
+    }
+  </script>
+</html>

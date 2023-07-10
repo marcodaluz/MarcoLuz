@@ -1,0 +1,116 @@
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Login</title>
+    <link rel="stylesheet" type="text/css" href="./css/style2.css" />
+    <script src="./js/main.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    />
+  </head>
+  <body>
+      <!--header-->
+  <nav class="navbar menu">
+  <div class="logo"><h1>DP Shops</h1></div>
+  <ul class="menu">
+    <li><a href="index.html" class="active">Home</a></li>
+    <li id="register-buton" style="display: none;"><a href="register.html">Register</a></li>
+    <li id="login-buton" style="display: none;"><a href="indexLogin.html">Login</a></li>
+   
+    <li id="logaut-buton" style="display: none;" onclick="logout()"><a href="#">Logout</a></li>
+    <li id="admin-buton" style="display: none;"><a href="./admin_html/admin.html">Admin</a></li>
+   <li>
+      <a href="carrinho.html"><i class="fas fa-shopping-cart"></i></a>
+    </li>
+  
+  </ul>
+
+  <!-- for responsive button-->
+  <div class="menu-btn">
+    <i class="fa"></i>
+  </div>
+</nav>
+    <!--header-->
+  <section class="content">
+    <div class="container">
+      <h1>Login</h1>
+      <form>
+        <div>
+          <i class="fas fa-user"></i>
+          <input
+            type="username"
+            id="username"
+            name="username"
+            placeholder="Enter your username"
+            required
+          />
+        </div>
+        <div>
+          <i class="fas fa-lock"></i>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            placeholder="Enter your password"
+          />
+        </div>
+        <button type="button" onclick="login()">Login</button>
+        <p id="error-message" style="color: red; display: none"></p>
+      </form>
+      <p>Don't have an account? <a href="register.html">Register</a></p>
+    </div>
+  </section>
+  </body>
+  <script>
+   
+    function login() {
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
+    
+      const url = 'http://localhost:4242/api/user/login';
+    
+      const requestBody = { username, password };
+    
+      fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(requestBody),
+      })
+        .then((response) => {
+          if (response.ok) {
+            return response.json();
+          } else {
+            throw new Error('Invalid credentials');
+          }
+        })
+        .then((data) => {
+          
+          const { profile, token } = data;
+          localStorage.setItem('profile', JSON.stringify(profile) ); 
+          localStorage.setItem('token-iusabndkjanbksd', token);
+
+            console.error('logado');
+            window.location.href = './index.html'; 
+          
+        })
+        .catch((error) => {
+          document.getElementById('error-message').innerText = error.message;
+          document.getElementById('error-message').style.display = 'block';
+          console.error('Error:', error);
+        });
+    }
+    
+  </script>
+</html>

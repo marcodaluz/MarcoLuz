@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="./css/style.css" />
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"
+      integrity="sha512-3gJwYpMe3QewGELv8k/BX9vcqhryRdzRMxVfq6ngyWXwo03GFEzjsUm8Q7RZcHPHksttq7/GFoxjCVUjkjvPdw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+      integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <title>Home</title>
+  </head>
+  <body>
+  <nav class="navbar menu">
+  <div class="logo"><h1>DP Shops</h1></div>
+  <ul class="menu">
+    <li><a href="index.html" class="active">Home</a></li>
+    <li id="register-buton" style="display: none;"><a href="register.html">Register</a></li>
+    <li id="login-buton" style="display: none;"><a href="indexLogin.html">Login</a></li>
+   
+    <li id="logaut-buton" style="display: none;" onclick="logout()"><a href="#">Logout</a></li>
+    <li id="admin-buton" style="display: none;"><a href="./admin_html/admin.html">Admin</a></li>
+   <li>
+      <a href="carrinho.html"><i class="fas fa-shopping-cart"></i></a>
+    </li>
+  
+  </ul>
+
+  <!-- for responsive button-->
+  <div class="menu-btn">
+    <i class="fa"></i>
+  </div>
+</nav>
+
+    <section class="content">
+      <h1>New Arrivals For Men & Women</h1>
+      <p>Get The best Women Fashion arrivals</p>
+      <button>See our product</button>
+    </section>
+    <!---->
+    <h1 class="pheading">Our Latest Products</h1>
+
+    <section class="sec">
+      <div class="products"></div>
+    </section>
+    <script src="./js/main.js"></script>
+    <footer>
+      <p>Copyrights at <a href="">DP Shops</a></p>
+    </footer>
+  </body>
+</html>

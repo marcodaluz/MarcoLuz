@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+     <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    />
+    
+    <title>Cart Items</title>
+    <style>
+      /* CSS styling */
+     /* CSS styling */
+      body {
+        font-family: Arial, sans-serif;
+      }
+
+      h1 {
+        text-align: center;
+      }
+
+.contentmain{
+    border: 1px solid black;
+    background-color: #f1f1f1;
+    margin: 50px 20vh;
+}
+
+
+/*HEADER*/
+.menu-btn{
+    color: #424144;
+    font-size: 23px;
+    cursor: pointer;
+    display: none;
+}
+
+
+.navbar{
+    padding: 20px 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0%;
+    z-index: 999;
+    background-color: #f3f4f6;
+    box-shadow: 0 0 14px rgba(0,0,0,0.3);
+
+}
+
+.navbar .logo h1{
+  color: #424144;;
+  border-bottom: 4px solid #fd6561;
+}
+
+.navbar .menu li{
+    list-style: none;
+    display: inline-block;
+}
+
+.navbar .menu li a{
+    display: block;
+    margin-left: 20px;
+    color:#424144;
+    border-bottom: 4px solid transparent;
+    text-decoration: none;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.navbar .menu li .active{
+    border-bottom: 4px solid #f63e4e;
+}
+
+.navbar .menu li a i{
+   
+    color:#f63e4e;
+   
+}
+
+.navbar .menu li a:hover {
+    border-bottom: 4px solid #f63e4e;
+}
+      .cart-item {
+        display: flex;
+        align-items: center;
+        margin: 10px;
+        padding: 10px;
+        border: 1px solid #ccc;
+      }
+
+      .cart-item-image img {
+        padding: 20px;
+        width: 100px;
+      }
+
+      .cart-item-details {
+        flex: 1;
+      }
+
+      .cart-item-details h3,
+      .cart-item-details p {
+        margin: 5px 0;
+      }
+
+      .cart-item input {
+        width: 40px;
+      }
+
+      .cart-item button {
+        margin-left: 10px;
+      }
+
+      .increment-button,
+      .decrement-button,
+      .remove-button {
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        padding: 5px 10px;
+        cursor: pointer;
+      }
+
+      .remove-button {
+        background-color: #dc3545;
+      }
+ .remove-button:hover {
+        background-color: #dc3545;
+      }
+      .remove-button i {
+        margin-right: 5px;
+      }
+
+      #total-value {
+        text-align: right;
+        margin: 20px;
+        color: #dc3545;
+        font-weight: bold;
+        font-size: 20px;
+      }
+
+      #checkout-btn, #login-btn {
+        display: block;
+        margin: 20px auto;
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+
+      
+
+/*footer*/
+
+footer{
+    background-color:#f3f4f6 ;
+    height: 10vh;
+}
+
+footer p{
+    text-align: center;
+    line-height: 10vh;
+}
+
+footer p a{
+   text-decoration: none;
+   color: #f63e4e;
+   font-weight: bold;
+}
+
+    </style>
+  </head>
+  <body>
+
+  <!--header-->
+    <nav class="navbar">
+        <div class="logo"><h1>DP Shops</h1></div>
+            <ul class="menu">
+                <li><a href="index.html" >Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="register.html">Register</a></li>
+                <li><a href="indexLogin.html">Login</a></li>
+                <li><a href="carrinho.html"  class="active"><i class="fas fa-shopping-cart"></i></a></li>
+            </ul>
+
+            <!-- for responsive button-->
+         <div class="menu-btn">
+                <i class="fa"></i>
+        </div>
+    </nav> 
+
+<div class="contentmain">
+
+<h1>Cart Items</h1>
+
+    <div id="cart-items"></div>
+
+
+    <div id="total-value"></div>
+
+    
+    <button id="login-btn" style="display: block;" ><a href="indexLogin.html">Login</a></button>
+    <button id="checkout-btn" style="display: none;" >Checkout</button>
+
+</div>
+    
+
+
+
+
+
+
+
+
+    <footer>
+         <p>Copyrights at <a href="">DP Shops</a></p>
+    </footer>
+  </body>
+<script src="./js/main.js"></script>
+    <script>
+      // JavaScript code
+
+      // Retrieve the user ID from local storage
+      const user = JSON.parse(localStorage.getItem("profile"));
+      const userId = user.id;
+
+      // Function to fetch cart items for the user
+function loadCartItems() {
+ 
+
+
+  const cartItemsContainer = document.getElementById("cart-items");
+  cartItemsContainer.innerHTML= "";
+  
+  const token = localStorage.getItem("token-iusabndkjanbksd");
+  if (!token) {
+    return;
+  }
+ 
+
+  fetch(`http://localhost:4242/api/cart-item/${userId}`,
+  {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      authorization: `Bearer ${token}`,
+    },
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      let totalValue = 0; // Variable to store the total value of the cart
+
+      // Loop through the cart items and create the corresponding HTML elements
+      data.forEach((cartItem) => {
+        var productId = cartItem.product_id;
+        var cartitemId = cartItem.id;
+        var cartitemQTD = cartItem.quantidade;
+
+        if (cartitemQTD <= 0) {
+          // Remove item from cart if quantity is less than or equal to 0
+          delCartItem(cartitemId);
+        } else {
+          // Fetch the product information for each cart item
+          fetch(`http://localhost:4242/api/products/${productId}`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              authorization: `Bearer ${token}`,
+            },
+          })
+            .then((response) => response.json())
+            .then((productData) => {
+              const cartItemDiv = createCartItemElement(productData[0]);
+
+              // Display the quantity input field
+              const quantityInput = cartItemDiv.querySelector(".quantity-input");
+              quantityInput.value = cartItem.quantidade; // Set the default value
+
+              // Create buttons for increasing and decreasing the quantity
+              const increaseButton = cartItemDiv.querySelector(".increase-button");
+              increaseButton.addEventListener("click", () => {
+                const newQuantity = parseInt(quantityInput.value) + 1;
+                updateQuantity(cartitemId, newQuantity);
+                quantityInput.value = newQuantity;
+                calculateTotalValue();
+              });
+
+              const decreaseButton = cartItemDiv.querySelector(".decrease-button");
+              decreaseButton.addEventListener("click", () => {
+                const newQuantity = parseInt(quantityInput.value) - 1;
+                if (newQuantity >= 0) {
+                  updateQuantity(cartitemId, newQuantity);
+                  quantityInput.value = newQuantity;
+                  calculateTotalValue();
+                }
+              });
+
+              // Create a button to remove the cart item
+               const removeButton = document.createElement("button");
+  removeButton.innerHTML = '<i class="fas fa-trash"></i> Remove';
+  removeButton.classList.add("remove-button"); // Adiciona a classe CSS para o botão de remoção
+  
+              removeButton.addEventListener("click", () => {
+                delCartItem(cartitemId);
+              });
+              cartItemDiv.appendChild(removeButton);
+
+              cartItemsContainer.appendChild(cartItemDiv);
+
+              // Calculate and add the product value to the total value of the cart
+              const productValue = parseFloat(productData[0].preco) * (cartItem.quantidade || 0);
+              totalValue += productValue;
+
+              // Update the total value display
+              calculateTotalValue(totalValue);
+            })
+            .catch((error) => {
+              console.error("Error loading product:", error);
+            });
+        }
+      });
+    })
+    .catch((error) => {
+      console.error("Error loading cart items:", error);
+    });
+}
+
+// Restante do código...
+
+// Function to calculate the total value of the cart
+function calculateTotalValue() {
+  const token = localStorage.getItem("token-iusabndkjanbksd");
+  if (!token) {
+    return;
+  }
+
+
+  const cartItemsContainer = document.getElementById("cart-items");
+  const quantityInputs = cartItemsContainer.querySelectorAll(".quantity-input");
+  let totalValue = 0;
+
+  quantityInputs.forEach((quantityInput) => {
+    const cartItemDiv = quantityInput.parentNode;
+    const productPriceElement = cartItemDiv.querySelector(".product-price");
+    const productPrice = parseFloat(productPriceElement.textContent.replace("Price: ", "").replace(" EUR", ""));
+    const quantity = parseInt(quantityInput.value);
+
+    const productValue = productPrice * quantity;
+    totalValue += productValue;
+  });
+
+  const totalValueElement = document.getElementById("total-value");
+  totalValueElement.textContent = `Total Value: ${totalValue.toFixed(2)} EUR`;
+}
+
+   
+      function delCartItem(id) {
+        const token = localStorage.getItem("token-iusabndkjanbksd");
+  if (!token) {
+    return;
+  }
+
+
+        fetch(`http://localhost:4242/api/cart-item/${id}`, {
+          method: "DELETE",
+           headers: {
+                    "Content-Type": "application/json",
+                    authorization: `Bearer ${token}`,
+                  },
+        })
+          .then((response) => {
+            loadCartItems();
+          })
+          .catch((error) => {
+            console.error("Error :", error);
+          });
+      }
+    
+      // Function to create a cart item element
+      function createCartItemElement(productData) {
+        const token = localStorage.getItem("token-iusabndkjanbksd");
+  if (!token) {
+    return;
+  }
+
+        const cartItemDiv = document.createElement("div");
+        cartItemDiv.classList.add("cart-item");
+
+        // Create a div for the product image
+        const imageDiv = document.createElement("div");
+        imageDiv.classList.add("cart-item-image");
+        const productImage = document.createElement("img");
+        productImage.src = productData.img;
+        productImage.alt = "Product Image";
+        imageDiv.appendChild(productImage);
+        cartItemDiv.appendChild(imageDiv);
+
+        // Create a div for the product details
+        const detailsDiv = document.createElement("div");
+        detailsDiv.classList.add("cart-item-details");
+
+        // Display the product name
+        const productName = document.createElement("h3");
+        productName.textContent = productData.nome;
+        detailsDiv.appendChild(productName);
+
+        // Display the product description
+        const productDescription = document.createElement("p");
+        productDescription.textContent = productData.descricao;
+        detailsDiv.appendChild(productDescription);
+
+        // Display the product price
+        const productPrice = document.createElement("p");
+        productPrice.textContent = `Price: ${productData.preco} EUR`;
+        productPrice.classList.add("product-price");
+        detailsDiv.appendChild(productPrice);
+
+        cartItemDiv.appendChild(detailsDiv);
+
+        // Create the quantity input field
+        const quantityInput = document.createElement("input");
+        quantityInput.type = "number";
+        quantityInput.value = 0;
+        quantityInput.classList.add("quantity-input");
+        cartItemDiv.appendChild(quantityInput);
+
+        // Create buttons for increasing and decreasing the quantity
+        const increaseButton = document.createElement("button");
+        increaseButton.textContent = "+";
+        increaseButton.classList.add("increase-button");
+        cartItemDiv.appendChild(increaseButton);
+
+        const decreaseButton = document.createElement("button");
+        decreaseButton.textContent = "-";
+        decreaseButton.classList.add("decrease-button");
+        cartItemDiv.appendChild(decreaseButton);
+
+        return cartItemDiv;
+      }
+
+      // Function to update the product quantity
+      function updateQuantity(cartitemId, quantity) {
+        const token = localStorage.getItem("token-iusabndkjanbksd");
+  if (!token) {
+    return;
+  }
+        fetch(`http://localhost:4242/api/cart-item/${cartitemId}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            quantidade: quantity,
+          }),
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            console.log("Quantity updated:", data);
+            // Handle success response if needed
+          })
+          .catch((error) => {
+            console.error("Error updating quantity:", error);
+            // Handle error response if needed
+          });
+      }
+
+      // Function to calculate the total value and update the display
+
+
+      document.addEventListener("DOMContentLoaded", () => {
+        const token = localStorage.getItem('token-iusabndkjanbksd');
+    const profile = localStorage.getItem('profile');
+
+    if (token && profile) {
+      document.getElementById('checkout-btn').style.display = 'block';
+      document.getElementById('login-btn').style.display = 'none';
+      loadCartItems();
+    } else {
+      document.getElementById('login-btn').style.display = 'block';
+      document.getElementById('checkout-btn').style.display = 'none';
+      return
+    }
+      });
+
+      // Function to check out and empty the cart
+      function checkOut() {
+        const token = localStorage.getItem("token-iusabndkjanbksd");
+  if (!token) {
+    return;
+  }
+
+        fetch(`http://localhost:4242/api/cart-item/${userId}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            authorization: `Bearer ${token}`,
+          },
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            const cartItems = data;
+            const updatePromises = [];
+
+            // Loop through the cart items and create promises to update the product quantity
+            cartItems.forEach((cartItem) => {
+              const productId = cartItem.product_id;
+              const quantity = cartItem.quantidade;
+
+              const updatePromise = fetch(
+                `http://localhost:4242/api/products/quantity/${productId}`,
+                {
+                  method: "PUT",
+                  headers: {
+                    "Content-Type": "application/json",
+                    authorization: `Bearer ${token}`,
+                  },
+                  body: JSON.stringify({
+                    quantidade: quantity,
+                  }),
+                }
+              )
+                .then((response) => response.json())
+                .then((data) => {
+                  console.log(
+                    `Product quantity updated for product ID ${productId}`
+                  );
+                })
+                .catch((error) => {
+                  console.error(
+                    `Error updating product quantity for product ID ${productId}:`,
+                    error
+                  );
+                });
+
+              updatePromises.push(updatePromise);
+            });
+
+            // Wait for all the update promises to complete
+            Promise.all(updatePromises)
+              .then(() => {
+                // Empty the cart by making a DELETE request
+                return fetch(
+                  `http://localhost:4242/api/cart-item/empty/${userId}`,
+                  {
+                    method: "DELETE",
+                     headers: {
+                      "Content-Type": "application/json",
+                      authorization: `Bearer ${token}`,
+                    },
+                  }
+                );
+              })
+              .then((response) => response.json())
+              .then((data) => {
+                console.log("Cart emptied:", data);
+                // Reload the cart items
+                loadCartItems();
+              })
+              .catch((error) => {
+                console.error("Error emptying cart:", error);
+              });
+          })
+          .catch((error) => {
+            console.error("Error loading cart items:", error);
+          });
+      }
+
+      // Checkout button event listener
+      document.getElementById("checkout-btn").addEventListener("click", () => {
+        checkOut();
+      });
+
+   </script>
+
+
+
+</html>
