@@ -45,3 +45,5 @@ License
 This project is licensed under the MIT License.
 
 Lembre-se de que este é apenas um exemplo de README e você deve personalizá-lo de acordo com as necessidades específicas do seu projeto, incluindo detalhes sobre a categoria de produtos escolhida, configurações de banco de dados, instruções de instalação específicas e assim por diante.
+
+DB_USER = Maky
